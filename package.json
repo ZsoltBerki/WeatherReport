@@ -4,7 +4,9 @@
   "description": "Weather Report Application for Raspberry Pie",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "build": "webpack --config webpack.common.js",
+    "start": "electron .",
+    "lintfix": "./node_modules/eslint/bin/eslint.js ./src/main/react/ --fix"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,38 @@
   },
   "homepage": "https://github.com/ZsoltBerki/WeatherReport#readme",
   "devDependencies": {
-    "electron": "^6.0.9"
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.6",
+    "electron": "^6.0.9",
+    "electron-debug": "^3.0.1",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-flowtype": "^4.3.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "path": "^0.12.7",
+    "prettier": "^1.18.2",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.8"
+  },
+  "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "lint-staged": {
+    "*.{js}": [
+      "./node_modules/eslint/bin/eslint.js --fix",
+      "git add"
+    ]
   }
 }
