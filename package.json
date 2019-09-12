@@ -1,0 +1,22 @@
+{
+  "name": "weather-report",
+  "version": "1.0.0",
+  "description": "Weather Report Application for Raspberry Pie",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZsoltBerki/WeatherReport.git"
+  },
+  "author": "Zsolt Berki",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ZsoltBerki/WeatherReport/issues"
+  },
+  "homepage": "https://github.com/ZsoltBerki/WeatherReport#readme",
+  "devDependencies": {
+    "electron": "^6.0.9"
+  }
+}
