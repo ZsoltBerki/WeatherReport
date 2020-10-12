@@ -1,6 +1,8 @@
 import React from 'react';
 import MainView from './views/main/MainView';
 
-export default () => {
+const Application: React.FunctionComponent = () => {
   return <MainView />;
 };
+
+export default Application;
