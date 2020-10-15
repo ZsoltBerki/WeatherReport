@@ -1,12 +1,18 @@
 import { types, applySnapshot, Instance } from 'mobx-state-tree';
-import { IWeatherModel, WeatherModel } from './Weather';
+import {
+  MainWeatherType,
+  WeatherIcon,
+  WeatherModel,
+  WeatherModelType,
+} from './Weather';
 
 const RootModel = types
   .model({
     weatherExample: WeatherModel,
+    
   })
   .actions((self) => ({
-    setWeatherExample(weather: IWeatherModel) {
+    setWeatherExample(weather: WeatherModelType) {
       applySnapshot(self.weatherExample, weather);
     },
   }));
@@ -14,8 +20,8 @@ const RootModel = types
 const initialState = RootModel.create({
   weatherExample: {
     id: 0,
-    icon: '',
-    main: 'rain',
+    icon: WeatherIcon['50d'],
+    main: MainWeatherType.Tornado,
     description: '',
   },
 });
