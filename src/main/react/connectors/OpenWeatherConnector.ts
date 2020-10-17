@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import {
   IStateTreeNode,
   IModelType,
@@ -37,12 +37,20 @@ export class OpenWeatherConnectorImpl implements OpenWeatherConnector {
 
   private static oneCallPath = '/onecall';
 
+  onSuccess(response: AxiosResponse): any {
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      throw `${response.status} - ${response.statusText}`;
+    }
+  }
+
   executeOneCallApi(location: LocationType): Promise<any> {
     const apiUrl = this.baseUrl;
     const callUrl = OpenWeatherConnectorImpl.oneCallPath;
     const queryParameters = this.getQueryParameters(location);
 
     const url = `${apiUrl}${callUrl}${queryParameters}`;
-    return axios.get(url);
+    return axios.get(url).then(this.onSuccess);
   }
 }

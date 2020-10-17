@@ -3,6 +3,7 @@ import React from 'react';
 import { ApplicationSettingsType } from './models/ApplicationSettings';
 import { LocationType } from './models/Location';
 import { initStore } from './models/RootStore';
+import { Services } from './services/Services';
 import MainView from './views/main/MainView';
 
 interface ApplicationProps {
@@ -18,6 +19,9 @@ const Application: React.FunctionComponent<ApplicationProps> = ({
     // { latitude: 62.36594, longitude: 29.42311 },
     defaultLocation,
   ]);
+
+  Services.init(settings);
+
   return (
     <Provider store={store}>
       <MainView />
