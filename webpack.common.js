@@ -28,6 +28,10 @@ module.exports = {
         test: /\.jsx?$/,
         use: ['babel-loader'],
         include: SRC
+      },
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
       }
     ]
   }

@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import WeatherDisplay from '../../components/WeatherDisplay';
 import { State } from '../../models/DataStatus';
 import { StoreType } from '../../models/RootStore';
+import BarometerSVG from '../../../svg/wi-barometer.svg';
 
 interface MainViewProps {
   store?: StoreType;
@@ -26,6 +27,7 @@ const MainView: React.FunctionComponent<MainViewProps> = ({
           <span>{location.status.state}</span>
           {location.status.state == State.success && (
             <div>
+              <BarometerSVG />
               <p>Current temperature:{location.currentWeather?.temperature}</p>
               <p>Feels like:{location.currentWeather?.temperatureFeelsLike}</p>
               <p>Sunrise:{location.currentWeather?.sunrise.toTimeString()}</p>
