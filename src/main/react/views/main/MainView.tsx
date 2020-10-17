@@ -23,6 +23,4 @@ const MainView: React.FunctionComponent<MainViewProps> = ({
   );
 };
 
-
-
 export default inject('store')(observer(MainView));

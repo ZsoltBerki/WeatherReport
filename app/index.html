@@ -13,7 +13,8 @@
       const applicationSettings = {
         apiKey: apiKey,
         language: 'en',
-        units: 'metric'
+        units: 'metric',
+        openApiUrl: 'https://api.openweathermap.org/data/2.5'
       };
       const WeatherReport = client.WeatherReport;
       const app = new WeatherReport(applicationSettings, defaultLocation, "react-app");
