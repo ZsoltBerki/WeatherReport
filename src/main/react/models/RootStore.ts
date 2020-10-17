@@ -1,31 +1,47 @@
 import { types, applySnapshot, Instance } from 'mobx-state-tree';
 import {
+  ApplicationSettingsModel,
+  ApplicationSettingsType,
+} from './ApplicationSettings';
+import { State } from './DataStatus';
+import { LocationType } from './Location';
+import {
   MainWeatherType,
   WeatherIcon,
   WeatherModel,
   WeatherModelType,
 } from './Weather';
+import { WeatherOfLocationModel } from './WeatherOfLocation';
 
-const RootModel = types
+const StoreModel = types
   .model({
-    weatherExample: WeatherModel,
-    
+    applicationSettings: ApplicationSettingsModel,
+    locations: types.array(WeatherOfLocationModel),
   })
   .actions((self) => ({
-    setWeatherExample(weather: WeatherModelType) {
-      applySnapshot(self.weatherExample, weather);
-    },
+    // setWeatherExample(weather: WeatherModelType) {
+    //  applySnapshot(self.weatherExample, weather);
+    //},
   }));
 
-const initialState = RootModel.create({
-  weatherExample: {
-    id: 0,
-    icon: WeatherIcon['50d'],
-    main: MainWeatherType.Tornado,
-    description: '',
-  },
-});
+export type StoreType = Instance<typeof StoreModel>;
 
-export const rootStore = initialState;
-
-export type RootInstance = Instance<typeof RootModel>;
+export const initStore: (
+  settings: ApplicationSettingsType,
+  initialLocations: Array<LocationType>
+) => StoreType = (
+  settings: ApplicationSettingsType,
+  initialLocations: Array<LocationType>
+) => {
+  return StoreModel.create({
+    applicationSettings: settings,
+    locations: initialLocations.map((location) =>
+      WeatherOfLocationModel.create({
+        status: {
+          state: State.initial,
+        },
+        location: location,
+      })
+    ),
+  });
+};

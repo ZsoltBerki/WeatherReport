@@ -3,13 +3,21 @@
     <meta charset="UTF-8" />
     <title>Weather Report</title>
     <script src="js/client.bundle.js"></script>
+    <script src="js/secrets.js"></script>
   </head>
   <body>
-    <h1>Is this a React App?</h1>
     <div id="react-app"></div>
 
     <script type="text/javascript">
-      client.render('react-app');
+      //client.render('react-app');
+      const applicationSettings = {
+        apiKey: apiKey,
+        language: 'en',
+        units: 'metric'
+      };
+      const WeatherReport = client.WeatherReport;
+      const app = new WeatherReport(applicationSettings, defaultLocation, "react-app");
+      app.render();
     </script>
   </body>
 </html>

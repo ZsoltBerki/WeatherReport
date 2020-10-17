@@ -18,4 +18,4 @@ const WeatherDisplay: React.FunctionComponent<WeatherDisplayProps> = ({
   );
 };
 
-export default WeatherDisplay
+export default WeatherDisplay;
