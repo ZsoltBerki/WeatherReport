@@ -1,6 +1,6 @@
 import { OpenWeatherConnector } from '../../../connectors/OpenWeatherConnector';
 import {
-  CurrentWeather,
+  CurrentWeatherType,
   CurrentWeatherModel,
 } from '../../../models/CurrentWeather';
 import { LocationType } from '../../../models/Location';
@@ -62,7 +62,7 @@ export class OpenWeatherService implements WeatherService {
     this.connector = connector;
   }
 
-  static getCurrentWeatherFromOneCall(result: any): CurrentWeather {
+  static getCurrentWeatherFromOneCall(result: any): CurrentWeatherType {
     OpenWeatherService.validateOneCallFields(result);
 
     const timeZoneOffset: number =
@@ -100,7 +100,7 @@ export class OpenWeatherService implements WeatherService {
     });
   }
 
-  getCurrentWeather(location: LocationType): Promise<CurrentWeather> {
+  getCurrentWeather(location: LocationType): Promise<CurrentWeatherType> {
     return this.connector
       .executeOneCallApi(location)
       .then(OpenWeatherService.getCurrentWeatherFromOneCall);

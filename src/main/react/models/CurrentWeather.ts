@@ -53,4 +53,4 @@ export const CurrentWeatherModel = types.model('Current Weather', {
   snowVolume: types.maybe(types.number),
 });
 
-export type CurrentWeather = Instance<typeof CurrentWeatherModel>;
+export type CurrentWeatherType = Instance<typeof CurrentWeatherModel>;

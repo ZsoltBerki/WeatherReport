@@ -5,11 +5,21 @@ import { LocationType } from './models/Location';
 import { initStore } from './models/RootStore';
 import { Services } from './services/Services';
 import MainView from './views/main/MainView';
+import styled from 'styled-components';
 
 interface ApplicationProps {
   settings: ApplicationSettingsType;
   defaultLocation: LocationType;
 }
+
+const Screen = styled.div`
+  min-width: 800px;
+  max-width: 800px;
+  min-height: 480px;
+  max-height: 480px;
+  border: 1px solid black;
+  padding: 20px;
+`;
 
 const Application: React.FunctionComponent<ApplicationProps> = ({
   settings,
@@ -24,7 +34,9 @@ const Application: React.FunctionComponent<ApplicationProps> = ({
 
   return (
     <Provider store={store}>
-      <MainView />
+      <Screen>
+        <MainView />
+      </Screen>
     </Provider>
   );
 };

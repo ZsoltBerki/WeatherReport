@@ -4,7 +4,7 @@ import {
   ApplicationSettingsModel,
   ApplicationSettingsType,
 } from './ApplicationSettings';
-import { CurrentWeather } from './CurrentWeather';
+import { CurrentWeatherType } from './CurrentWeather';
 import { State } from './DataStatus';
 import { LocationType } from './Location';
 import { WeatherOfLocationModel } from './WeatherOfLocation';
@@ -20,7 +20,7 @@ const StoreModel = types
       self.locations[locationIndex].currentWeather = undefined;
 
       try {
-        const currentWeatherAtLocation: CurrentWeather = yield Services.access().weather.getCurrentWeather(
+        const currentWeatherAtLocation: CurrentWeatherType = yield Services.access().weather.getCurrentWeather(
           self.locations[locationIndex].location
         );
         self.locations[locationIndex].currentWeather = currentWeatherAtLocation;
