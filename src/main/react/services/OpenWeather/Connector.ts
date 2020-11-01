@@ -1,16 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
-import {
-  IStateTreeNode,
-  IModelType,
-  ISimpleType,
-  _NotCustomized,
-} from 'mobx-state-tree';
-import { NonEmptyObject } from 'mobx-state-tree/dist/internal';
-import { Language, Units } from '../models/ApplicationSettings';
-import { LocationType } from '../models/Location';
+import { _NotCustomized } from 'mobx-state-tree';
+import { Language, Units } from '../../models/ApplicationSettings';
+import { LocationType } from '../../models/Location';
 
 export interface OpenWeatherConnector {
-  executeOneCallApi: (location: LocationType) => Promise<any>;
+  get: (path: string, location: LocationType) => Promise<any>;
 }
 
 export class OpenWeatherConnectorImpl implements OpenWeatherConnector {
@@ -35,8 +29,6 @@ export class OpenWeatherConnectorImpl implements OpenWeatherConnector {
     return `?lat=${location.latitude}&lon=${location.longitude}&appid=${this.apiKey}&units=${this.unit}&lang=${this.language}`;
   }
 
-  private static oneCallPath = '/onecall';
-
   onSuccess(response: AxiosResponse): any {
     if (response.status == 200) {
       return response.data;
@@ -45,12 +37,11 @@ export class OpenWeatherConnectorImpl implements OpenWeatherConnector {
     }
   }
 
-  executeOneCallApi(location: LocationType): Promise<any> {
+  get(path: string, location: LocationType): Promise<any> {
     const apiUrl = this.baseUrl;
-    const callUrl = OpenWeatherConnectorImpl.oneCallPath;
     const queryParameters = this.getQueryParameters(location);
 
-    const url = `${apiUrl}${callUrl}${queryParameters}`;
+    const url = `${apiUrl}${path}${queryParameters}`;
     return axios.get(url).then(this.onSuccess);
   }
 }

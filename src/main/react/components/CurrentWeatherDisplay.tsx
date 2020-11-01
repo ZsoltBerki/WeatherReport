@@ -14,7 +14,7 @@ import {
   getPressureString,
   getSpeedString,
   getTimeString,
-} from '../utils';
+} from './utils';
 import { Units } from '../models/ApplicationSettings';
 
 interface Props {

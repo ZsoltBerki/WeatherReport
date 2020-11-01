@@ -1,15 +1,19 @@
+import { ApplicationSettingsType } from '../models/ApplicationSettings';
+import { ForecastService } from './Forecast/ForecastService';
+import { ForecastServiceImpl } from './Forecast/ForecastWithOpenWeather';
 import {
   OpenWeatherConnector,
   OpenWeatherConnectorImpl,
-} from '../connectors/OpenWeatherConnector';
-import { ApplicationSettingsType } from '../models/ApplicationSettings';
-import { OpenWeatherService } from './weather/OpenWeatherImpl/OpenWeatherService';
-import { WeatherService } from './weather/WeatherService';
+} from './OpenWeather/Connector';
+import {
+  OpenWeatherService,
+  OpenWeatherServiceImpl,
+} from './OpenWeather/Service';
 
 export class Services {
   private static instance: Services;
 
-  weather: WeatherService;
+  forecast: ForecastService;
 
   private constructor(settings: ApplicationSettingsType) {
     const openWeatherConnector: OpenWeatherConnector = new OpenWeatherConnectorImpl(
@@ -18,7 +22,10 @@ export class Services {
       settings.units,
       settings.openApiUrl
     );
-    this.weather = new OpenWeatherService(openWeatherConnector);
+    const openWeatherService: OpenWeatherService = new OpenWeatherServiceImpl(
+      openWeatherConnector
+    );
+    this.forecast = new ForecastServiceImpl(openWeatherService);
   }
 
   static init(settings: ApplicationSettingsType) {

@@ -6,6 +6,7 @@ import { State } from '../../models/DataStatus';
 import { StoreType } from '../../models/RootStore';
 import BarometerSVG from '../../../svg/wi-barometer.svg';
 import CurrentWeatherDisplay from '../../components/CurrentWeatherDisplay';
+import HourlyForecastDisplay from '../../components/HourlyForecastDisplay';
 
 interface MainViewProps {
   store?: StoreType;
@@ -26,10 +27,10 @@ const MainView: React.FunctionComponent<MainViewProps> = ({
         <React.Fragment key={index}>
           {location.status.state == State.success && (
             <div>
-              {location.currentWeather && (
-                <CurrentWeatherDisplay
+              {location.forecast && (
+                <HourlyForecastDisplay
                   units={store.applicationSettings.units}
-                  currentWeather={location.currentWeather}
+                  hourlyForecast={location.forecast.hourly}
                 />
               )}
             </div>

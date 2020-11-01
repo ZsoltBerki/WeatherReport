@@ -1,5 +1,5 @@
 import React from 'react';
-import { WeatherModelType } from '../models/Weather';
+import { WeatherModelType } from '../models/weather/Weather';
 
 interface WeatherDisplayProps {
   model: WeatherModelType;

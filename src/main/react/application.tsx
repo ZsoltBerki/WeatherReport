@@ -19,6 +19,8 @@ const Screen = styled.div`
   max-height: 480px;
   border: 1px solid black;
   padding: 20px;
+  font-family: Arial;
+}
 `;
 
 const Application: React.FunctionComponent<ApplicationProps> = ({

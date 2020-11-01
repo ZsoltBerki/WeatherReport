@@ -1,4 +1,4 @@
-import { Units } from './models/ApplicationSettings';
+import { Units } from '../models/ApplicationSettings';
 
 export const getTimeString: (date: Date) => string = (date: Date) => {
   return `${getTwoDigitsString(date.getHours())}:${getTwoDigitsString(

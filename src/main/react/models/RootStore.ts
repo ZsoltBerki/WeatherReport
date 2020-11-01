@@ -4,26 +4,26 @@ import {
   ApplicationSettingsModel,
   ApplicationSettingsType,
 } from './ApplicationSettings';
-import { CurrentWeatherType } from './CurrentWeather';
 import { State } from './DataStatus';
+import { ForecastForLocationModel } from './ForecastForLocation';
 import { LocationType } from './Location';
-import { WeatherOfLocationModel } from './WeatherOfLocation';
+import { ForecastType } from './weather/Forecast';
 
 const StoreModel = types
   .model({
     applicationSettings: ApplicationSettingsModel,
-    locations: types.array(WeatherOfLocationModel),
+    locations: types.array(ForecastForLocationModel),
   })
   .actions((self) => ({
     loadWeatherAtLocation: flow(function* (locationIndex: number) {
       self.locations[locationIndex].status.state = State.pending;
-      self.locations[locationIndex].currentWeather = undefined;
+      self.locations[locationIndex].forecast = undefined;
 
       try {
-        const currentWeatherAtLocation: CurrentWeatherType = yield Services.access().weather.getCurrentWeather(
+        const forecastForLocation: ForecastType = yield Services.access().forecast.getForecast(
           self.locations[locationIndex].location
         );
-        self.locations[locationIndex].currentWeather = currentWeatherAtLocation;
+        self.locations[locationIndex].forecast = forecastForLocation;
         self.locations[locationIndex].status.state = State.success;
         self.locations[locationIndex].status.lastFetch = new Date();
       } catch (e) {
@@ -38,9 +38,6 @@ const StoreModel = types
         }
       });
     },
-    // setWeatherExample(weather: WeatherModelType) {
-    //  applySnapshot(self.weatherExample, weather);
-    //},
   }));
 
 export type StoreType = Instance<typeof StoreModel>;
@@ -55,7 +52,7 @@ export const initStore: (
   return StoreModel.create({
     applicationSettings: settings,
     locations: initialLocations.map((location) =>
-      WeatherOfLocationModel.create({
+      ForecastForLocationModel.create({
         status: {
           state: State.initial,
         },
