@@ -7,6 +7,7 @@ import { StoreType } from '../../models/RootStore';
 import BarometerSVG from '../../../svg/wi-barometer.svg';
 import CurrentWeatherDisplay from '../../components/CurrentWeatherDisplay';
 import HourlyForecastDisplay from '../../components/HourlyForecastDisplay';
+import AlertsDisplay from '../../components/AlertsDisplay';
 
 interface MainViewProps {
   store?: StoreType;
@@ -28,10 +29,13 @@ const MainView: React.FunctionComponent<MainViewProps> = ({
           {location.status.state == State.success && (
             <div>
               {location.forecast && (
-                <HourlyForecastDisplay
-                  units={store.applicationSettings.units}
-                  hourlyForecast={location.forecast.hourly}
-                />
+                <React.Fragment>
+                  <AlertsDisplay alerts={location.forecast.alerts} />
+                  <HourlyForecastDisplay
+                    units={store.applicationSettings.units}
+                    hourlyForecast={location.forecast.hourly}
+                  />
+                </React.Fragment>
               )}
             </div>
           )}
