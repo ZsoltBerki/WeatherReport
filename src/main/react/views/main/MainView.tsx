@@ -9,6 +9,8 @@ import CurrentWeatherDisplay from '../../components/CurrentWeatherDisplay';
 import HourlyForecastDisplay from '../../components/HourlyForecastDisplay';
 import AlertsDisplay from '../../components/AlertsDisplay';
 import Dragable from '../../components/Dragable';
+import HourlyScaleDisplay from '../../components/HourlyScaleDisplay';
+import HourlyWeatherDisplayCurrent from '../../components/HourlyWeatherDisplayCurrent';
 
 interface MainViewProps {
   store?: StoreType;
@@ -25,32 +27,31 @@ const MainView: React.FunctionComponent<MainViewProps> = ({
 
   return store ? (
     <div className={className}>
-      <Dragable
-        initialX={store.drag.initial_X}
-        initialY={store.drag.initial_Y}
-        currentX={store.drag.current_X}
-        currentY={store.drag.current_Y}
-        setCurrent={store.drag.setCurrent}
-        setInitial={store.drag.setInitial}
-        reset={store.drag.reset}
-      />
-      {store.locations.map((location, index) => (
-        <React.Fragment key={index}>
-          {location.status.state == State.success && (
-            <div>
-              {location.forecast && (
-                <React.Fragment>
-                  <AlertsDisplay alerts={location.forecast.alerts} />
-                  <HourlyForecastDisplay
-                    units={store.applicationSettings.units}
-                    hourlyForecast={location.forecast.hourly}
-                  />
-                </React.Fragment>
-              )}
-            </div>
-          )}
+      {store.forecastForLocation.status.state == State.success && (
+        <React.Fragment>
+          <div>
+            {store.forecastForLocation.forecast && (
+              <React.Fragment>
+                <AlertsDisplay
+                  alerts={store.forecastForLocation.forecast.alerts}
+                />
+                <HourlyScaleDisplay
+                  currentWeather={store.forecastForLocation.forecast.current}
+                  displayedItemIndex={store.hourlyScale.displayedItemIndex}
+                  starDragging={store.hourlyScale.startDragging}
+                  stopDragging={store.hourlyScale.stopDragging}
+                  drag={store.hourlyScale.drag}
+                  units={store.applicationSettings.units}
+                  hourlyForecast={store.forecastForLocation.forecast.hourly.slice(
+                    1,
+                    store.hourlyScale.totalItems + 1
+                  )}
+                />
+              </React.Fragment>
+            )}
+          </div>
         </React.Fragment>
-      ))}
+      )}
     </div>
   ) : (
     <span>Store cannot be null</span>

@@ -27,10 +27,7 @@ const Application: React.FunctionComponent<ApplicationProps> = ({
   settings,
   defaultLocation,
 }) => {
-  const store = initStore(settings, [
-    // { latitude: 62.36594, longitude: 29.42311 },
-    defaultLocation,
-  ]);
+  const store = initStore(settings, defaultLocation);
 
   Services.init(settings);
 

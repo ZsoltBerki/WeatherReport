@@ -3,22 +3,28 @@ import { HourlyWeatherType } from '../models/weather/HourlyWeather';
 import styled from 'styled-components';
 import React from 'react';
 import {
-  getCelsiusString,
-  getPercentageString,
-  getPressureString,
-  getTimeString,
+  renderCelsius,
+  renderPercentage,
+  renderPressure,
+  renderTime,
 } from './utils';
 
 interface Props {
   hourlyWeather: HourlyWeatherType;
   units: Units;
+  onMouseDown?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-right: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  background: aliceblue;
   text-align: center;
+  min-width: 50px;
 
   .time {
     font-size: 12px;
@@ -63,41 +69,37 @@ const Wrapper = styled.div`
 const HourlyWeatherDisplay: React.FunctionComponent<Props> = ({
   hourlyWeather,
   units,
+  onMouseDown,
 }) => {
+  const temperature = hourlyWeather.temperature;
+  const weather = hourlyWeather.weatherInfo;
+  const precipitationPercentage = hourlyWeather.precipitationProbability * 100;
   return (
-    <Wrapper>
-      <div className={'time separator'}>
-        {getTimeString(hourlyWeather.date)}
-      </div>
-      <div className={'temperature'}>
-        {getCelsiusString(hourlyWeather.temperature.actual)}
-      </div>
+    <Wrapper onMouseDown={onMouseDown}>
+      <div className={'time separator'}>{renderTime(hourlyWeather.date)}</div>
+      <div className={'temperature'}>{renderCelsius(temperature.actual)}</div>
       <div className={'temperature feels-like'}>
-        ({getCelsiusString(hourlyWeather.temperature.feelsLike)})
+        ({renderCelsius(temperature.feelsLike)})
       </div>
-      <div className={'humidity'}>
-        {getPercentageString(hourlyWeather.weatherInfo.humidity)}
-      </div>
+      <div className={'humidity'}>{renderPercentage(weather.humidity)}</div>
       <div className={'temperature dew-point'}>
-        {getCelsiusString(hourlyWeather.weatherInfo.dewPoint)}
+        {renderCelsius(weather.dewPoint)}
       </div>
       <div className={'pressure'}>
-        {getPressureString(hourlyWeather.weatherInfo.atmosphericPressure)}
+        {renderPressure(weather.atmosphericPressure)}
       </div>
-      <div className={'clouds'}>
-        {getPercentageString(hourlyWeather.weatherInfo.clouds)}
-      </div>
+      <div className={'clouds'}>{renderPercentage(weather.clouds)}</div>
       <div className={'precipitation'}>
-        {getPercentageString(hourlyWeather.precipitationProbability)}
+        {renderPercentage(precipitationPercentage)}
       </div>
       <div className={'rain'}>
-        {hourlyWeather.weatherInfo.rainVolume || 0}mm
+        {weather.rainVolume ? `${weather.rainVolume}mm` : '-'}
       </div>
       <div className={'snow'}>
-        {hourlyWeather.weatherInfo.snowVolume || 0}mm
+        {weather.snowVolume ? `${weather.snowVolume}mm` : '-'}
       </div>
       <div className={'visibility'}>
-        {hourlyWeather.weatherInfo.visibility}m
+        {weather.visibility ? `${weather.visibility}m` : '-'}
       </div>
     </Wrapper>
   );

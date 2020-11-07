@@ -1,42 +1,52 @@
 import { Units } from '../models/ApplicationSettings';
 
-export const getTimeString: (date: Date) => string = (date: Date) => {
-  return `${getTwoDigitsString(date.getHours())}:${getTwoDigitsString(
+export const renderTime: (date: Date) => string = (date: Date) => {
+  return `${renderTwoDigits(date.getHours())}:${renderTwoDigits(
     date.getMinutes()
   )}`;
 };
 
-export const getTwoDigitsString: (number: number) => string = (
-  number: number
-) => {
+export const renderTwoDigits: (number: number) => string = (number: number) => {
   return `${number > 9 ? '' : '0'}${number}`;
 };
 
-export const getPercentageString: (number: number) => string = (
+export const renderPercentage: (number: number) => string = (
   number: number
 ) => {
   return `${number}%`;
 };
 
-export const getCelsiusString: (number: number) => string = (
-  number: number
-) => {
-  return `${number}°C`;
+export const renderCelsius: (number: number) => string = (number: number) => {
+  return `${number.toFixed(1)}°C`;
 };
 
-export const getPressureString: (number: number) => string = (
-  number: number
-) => {
+export const renderPressure: (number: number) => string = (number: number) => {
   return `${number}hPa`;
 };
 
-export const getDegreeString: (number: number) => string = (number: number) => {
+export const renderDegree: (number: number) => string = (number: number) => {
   return `${number}°`;
 };
 
-export const getSpeedString: (number: number, units: Units) => string = (
+export const renderSpeed: (number: number, units: Units) => string = (
   number: number,
   units: Units
 ) => {
   return units == Units.imperial ? `${number}m/h` : `${number}m/s`;
+};
+
+export const renderDifferences: (a: number, b: number) => string = (
+  a: number,
+  b: number
+) => {
+  const difference = a - b;
+  const fixedPrecisionDifference =
+    difference % 1 ? difference.toFixed(1) : difference;
+  if (difference > 0) {
+    return `+${fixedPrecisionDifference}`;
+  } else if (difference < 0) {
+    return `${fixedPrecisionDifference}`;
+  } else {
+    return '-';
+  }
 };

@@ -9,11 +9,11 @@ import DewSVG from '../../svg/wi-raindrops.svg';
 import WindSVG from '../../svg/wi-wind-deg.svg';
 import RightArrowSVG from '../../svg/wi-direction-right.svg';
 import {
-  getCelsiusString,
-  getPercentageString,
-  getPressureString,
-  getSpeedString,
-  getTimeString,
+  renderCelsius,
+  renderPercentage,
+  renderPressure,
+  renderSpeed,
+  renderTime,
 } from './utils';
 import { Units } from '../models/ApplicationSettings';
 
@@ -75,21 +75,21 @@ const CurrentWeatherDisplay: React.FunctionComponent<Props> = ({
       <ValueColumn>
         <IconValueWrapper className={'section-sun-rise-and-set'}>
           <SunriseSVG />
-          <span>{getTimeString(currentWeather.sunrise)}</span>
+          <span>{renderTime(currentWeather.sunrise)}</span>
           <RightArrowSVG />
-          <span>{getTimeString(currentWeather.sunset)}</span>
+          <span>{renderTime(currentWeather.sunset)}</span>
           <SunsetSVG />
         </IconValueWrapper>
         <MainTemperatureWrapper>
-          {getCelsiusString(currentWeather.temperature)}
+          {renderCelsius(currentWeather.temperature)}
         </MainTemperatureWrapper>
         <SubTemperatureWrapper className={'feels-like-temperature'}>
-          feels like {getCelsiusString(currentWeather.temperatureFeelsLike)}
+          feels like {renderCelsius(currentWeather.temperatureFeelsLike)}
         </SubTemperatureWrapper>
         <ValueRow>
           <IconValueWrapper>
             <PressureSVG />
-            <span>{getPressureString(currentWeather.atmosphericPressure)}</span>
+            <span>{renderPressure(currentWeather.atmosphericPressure)}</span>
           </IconValueWrapper>
           <IconValueWrapper>
             <div
@@ -99,17 +99,17 @@ const CurrentWeatherDisplay: React.FunctionComponent<Props> = ({
             >
               <WindSVG />
             </div>
-            <span>{getSpeedString(currentWeather.windSpeed, units)}</span>
+            <span>{renderSpeed(currentWeather.windSpeed, units)}</span>
           </IconValueWrapper>
         </ValueRow>
         <ValueRow>
           <IconValueWrapper>
             <HumiditySVG />
-            <span>{getPercentageString(currentWeather.humidity)}</span>
+            <span>{renderPercentage(currentWeather.humidity)}</span>
           </IconValueWrapper>
           <IconValueWrapper>
             <DewSVG />
-            <span>{getCelsiusString(currentWeather.dewPoint)}</span>
+            <span>{renderCelsius(currentWeather.dewPoint)}</span>
           </IconValueWrapper>
         </ValueRow>
       </ValueColumn>

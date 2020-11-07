@@ -1,7 +1,7 @@
 import { AlertType } from '../models/weather/Alert';
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { getTimeString } from './utils';
+import { renderTime } from './utils';
 
 interface AlertsProps {
   alerts: Array<AlertType>;
@@ -49,7 +49,7 @@ const AlertDisplay: React.FunctionComponent<AlertProps> = ({ alert }) => {
   return (
     <AlertWrapper>
       <div className={'time'}>
-        {getTimeString(alert.start)} - {getTimeString(alert.end)}
+        {renderTime(alert.start)} - {renderTime(alert.end)}
       </div>
       <div className={'event'}>{alert.event}</div>
       <div className={'description'}>{alert.description}</div>

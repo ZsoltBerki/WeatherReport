@@ -5,6 +5,7 @@ import {
   ApplicationSettingsType,
 } from './ApplicationSettings';
 import { State } from './DataStatus';
+import { DragableScaleModel } from './DragableScale';
 import { DragInfoModel } from './DragInfo';
 import { ForecastForLocationModel } from './ForecastForLocation';
 import { LocationType } from './Location';
@@ -13,32 +14,31 @@ import { ForecastType } from './weather/Forecast';
 const StoreModel = types
   .model({
     applicationSettings: ApplicationSettingsModel,
-    locations: types.array(ForecastForLocationModel),
+    forecastForLocation: ForecastForLocationModel,
     drag: DragInfoModel,
+    hourlyScale: DragableScaleModel,
   })
   .actions((self) => ({
-    loadWeatherAtLocation: flow(function* (locationIndex: number) {
-      self.locations[locationIndex].status.state = State.pending;
-      self.locations[locationIndex].forecast = undefined;
+    loadWeather: flow(function* () {
+      self.forecastForLocation.status.state = State.pending;
+      self.forecastForLocation.forecast = undefined;
 
       try {
         const forecastForLocation: ForecastType = yield Services.access().forecast.getForecast(
-          self.locations[locationIndex].location
+          self.forecastForLocation.location
         );
-        self.locations[locationIndex].forecast = forecastForLocation;
-        self.locations[locationIndex].status.state = State.success;
-        self.locations[locationIndex].status.lastFetch = new Date();
+        self.forecastForLocation.forecast = forecastForLocation;
+        self.forecastForLocation.status.state = State.success;
+        self.forecastForLocation.status.lastFetch = new Date();
       } catch (e) {
-        self.locations[locationIndex].status.state = State.error;
+        self.forecastForLocation.status.state = State.error;
         console.error(e);
       }
     }),
     initWeatherData() {
-      self.locations.forEach((location, locationIndex) => {
-        if (location.status.state == State.initial) {
-          this.loadWeatherAtLocation(locationIndex);
-        }
-      });
+      if (self.forecastForLocation.status.state == State.initial) {
+        this.loadWeather();
+      }
     },
   }));
 
@@ -46,10 +46,10 @@ export type StoreType = Instance<typeof StoreModel>;
 
 export const initStore: (
   settings: ApplicationSettingsType,
-  initialLocations: Array<LocationType>
+  location: LocationType
 ) => StoreType = (
   settings: ApplicationSettingsType,
-  initialLocations: Array<LocationType>
+  location: LocationType
 ) => {
   return StoreModel.create({
     applicationSettings: settings,
@@ -59,13 +59,17 @@ export const initStore: (
       current_X: 0,
       current_Y: 0,
     }),
-    locations: initialLocations.map((location) =>
-      ForecastForLocationModel.create({
-        status: {
-          state: State.initial,
-        },
-        location: location,
-      })
-    ),
+    forecastForLocation: ForecastForLocationModel.create({
+      status: {
+        state: State.initial,
+      },
+      location: location,
+    }),
+    hourlyScale: DragableScaleModel.create({
+      totalItems: 19,
+      displayedItemIndex: 0,
+      draggingStartPosition: 0,
+      draggingTreshold: 35,
+    }),
   });
 };
