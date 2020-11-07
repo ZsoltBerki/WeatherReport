@@ -5,6 +5,7 @@ import {
   ApplicationSettingsType,
 } from './ApplicationSettings';
 import { State } from './DataStatus';
+import { DragInfoModel } from './DragInfo';
 import { ForecastForLocationModel } from './ForecastForLocation';
 import { LocationType } from './Location';
 import { ForecastType } from './weather/Forecast';
@@ -13,6 +14,7 @@ const StoreModel = types
   .model({
     applicationSettings: ApplicationSettingsModel,
     locations: types.array(ForecastForLocationModel),
+    drag: DragInfoModel,
   })
   .actions((self) => ({
     loadWeatherAtLocation: flow(function* (locationIndex: number) {
@@ -51,6 +53,12 @@ export const initStore: (
 ) => {
   return StoreModel.create({
     applicationSettings: settings,
+    drag: DragInfoModel.create({
+      initial_X: 0,
+      initial_Y: 0,
+      current_X: 0,
+      current_Y: 0,
+    }),
     locations: initialLocations.map((location) =>
       ForecastForLocationModel.create({
         status: {

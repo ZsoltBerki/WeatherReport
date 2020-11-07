@@ -8,6 +8,7 @@ import BarometerSVG from '../../../svg/wi-barometer.svg';
 import CurrentWeatherDisplay from '../../components/CurrentWeatherDisplay';
 import HourlyForecastDisplay from '../../components/HourlyForecastDisplay';
 import AlertsDisplay from '../../components/AlertsDisplay';
+import Dragable from '../../components/Dragable';
 
 interface MainViewProps {
   store?: StoreType;
@@ -24,6 +25,15 @@ const MainView: React.FunctionComponent<MainViewProps> = ({
 
   return store ? (
     <div className={className}>
+      <Dragable
+        initialX={store.drag.initial_X}
+        initialY={store.drag.initial_Y}
+        currentX={store.drag.current_X}
+        currentY={store.drag.current_Y}
+        setCurrent={store.drag.setCurrent}
+        setInitial={store.drag.setInitial}
+        reset={store.drag.reset}
+      />
       {store.locations.map((location, index) => (
         <React.Fragment key={index}>
           {location.status.state == State.success && (

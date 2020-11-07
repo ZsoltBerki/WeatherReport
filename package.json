@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --config webpack.common.js",
     "start": "electron .",
-    "lint": "eslint ./src/main/react/ --fix"
+    "lint": "eslint ./src/main/react/ --fix",
+    "buildAndStart": "webpack --config webpack.common.js & electron ."
   },
   "repository": {
     "type": "git",
