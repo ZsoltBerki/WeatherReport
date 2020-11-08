@@ -16,6 +16,8 @@ import CloudRainSVG from '../../svg/wi-showers.svg';
 import CloudSnowSVG from '../../svg/wi-snow.svg';
 import CloudSVG from '../../svg/wi-cloud.svg';
 import { CurrentWeatherType } from '../models/weather/CurrentWeather';
+import WeatherIconDisplay from './WeatherIconDisplay';
+import { WeatherIcon } from '../models/weather/Weather';
 
 interface Props {
   currentWeather: CurrentWeatherType;
@@ -113,6 +115,8 @@ const HourlyWeatherDisplayCurrent: React.FunctionComponent<Props> = ({
   currentWeather,
   units,
 }) => {
+  const weather = currentWeather.weatherInfo.weather;
+  const weatherIcon = weather && weather.length > 0 && weather[0].icon;
   return (
     <Wrapper>
       <IconsWrapper>
@@ -141,6 +145,12 @@ const HourlyWeatherDisplayCurrent: React.FunctionComponent<Props> = ({
       <ValuesWrapper>
         <div className={'time separator'}>
           {renderTime(currentWeather.date)}
+        </div>
+        <div className={'weather-icon'}>
+          <WeatherIconDisplay
+            weatherIcon={weatherIcon || WeatherIcon.Unknown}
+            isDay={true}
+          />
         </div>
         <div className={'temperature'}>
           {renderCelsius(currentWeather.temperature.actual)}

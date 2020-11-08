@@ -21,11 +21,129 @@ import { HourlyWeatherModel } from '../../models/weather/HourlyWeather';
 import { DailyWeatherModel } from '../../models/weather/DailyWeather';
 import { DayTemperatureModel } from '../../models/weather/DayTemperature';
 import { AlertModel } from '../../models/weather/Alert';
+import { WeatherIcon, WeatherModel } from '../../models/weather/Weather';
 
 export class ForecastServiceImpl implements ForecastService {
   service: OpenWeatherService;
   constructor(service: OpenWeatherService) {
     this.service = service;
+  }
+
+  getWeatherIcon(id: number): WeatherIcon {
+    switch (id) {
+      case 200:
+        return WeatherIcon.StormShowers;
+      case 201:
+        return WeatherIcon.StormShowers;
+      case 202:
+        return WeatherIcon.Thunderstorm;
+      case 210:
+        return WeatherIcon.Lightning;
+      case 211:
+        return WeatherIcon.Lightning;
+      case 212:
+        return WeatherIcon.Lightning;
+      case 221:
+        return WeatherIcon.Lightning;
+      case 230:
+        return WeatherIcon.StormShowers;
+      case 231:
+        return WeatherIcon.StormShowers;
+      case 232:
+        return WeatherIcon.Thunderstorm;
+      case 300:
+        return WeatherIcon.Sprinkle;
+      case 301:
+        return WeatherIcon.Rain;
+      case 302:
+        return WeatherIcon.Rain;
+      case 310:
+        return WeatherIcon.Sprinkle;
+      case 311:
+        return WeatherIcon.Rain;
+      case 312:
+        return WeatherIcon.Rain;
+      case 313:
+        return WeatherIcon.Rain;
+      case 314:
+        return WeatherIcon.Rain;
+      case 321:
+        return WeatherIcon.Rain;
+      case 500:
+        return WeatherIcon.Sprinkle;
+      case 501:
+        return WeatherIcon.Rain;
+      case 502:
+        return WeatherIcon.Rain;
+      case 503:
+        return WeatherIcon.Rain;
+      case 504:
+        return WeatherIcon.Rain;
+      case 511:
+        return WeatherIcon.Hail;
+      case 520:
+        return WeatherIcon.Rain;
+      case 521:
+        return WeatherIcon.Rain;
+      case 522:
+        return WeatherIcon.Rain;
+      case 531:
+        return WeatherIcon.RainWind;
+      case 600:
+        return WeatherIcon.Snow;
+      case 601:
+        return WeatherIcon.Snow;
+      case 602:
+        return WeatherIcon.Snow;
+      case 611:
+        return WeatherIcon.Sleet;
+      case 612:
+        return WeatherIcon.Sleet;
+      case 613:
+        return WeatherIcon.Sleet;
+      case 615:
+        return WeatherIcon.RainMix;
+      case 616:
+        return WeatherIcon.RainMix;
+      case 620:
+        return WeatherIcon.RainMix;
+      case 621:
+        return WeatherIcon.Snow;
+      case 622:
+        return WeatherIcon.Snow;
+      case 701:
+        return WeatherIcon.Fog;
+      case 711:
+        return WeatherIcon.Smoke;
+      case 721:
+        return WeatherIcon.Haze;
+      case 731:
+        return WeatherIcon.Dust;
+      case 741:
+        return WeatherIcon.Fog;
+      case 751:
+        return WeatherIcon.Sandstorm;
+      case 761:
+        return WeatherIcon.Dust;
+      case 762:
+        return WeatherIcon.Volcano;
+      case 771:
+        return WeatherIcon.StrongWind;
+      case 781:
+        return WeatherIcon.Tornado;
+      case 800:
+        return WeatherIcon.Sunny;
+      case 801:
+        return WeatherIcon.Cloudy;
+      case 802:
+        return WeatherIcon.Cloudy;
+      case 803:
+        return WeatherIcon.Cloudy;
+      case 804:
+        return WeatherIcon.Clouds;
+      default:
+        return WeatherIcon.Unknown;
+    }
   }
 
   getForecast(location: LocationType): Promise<ForecastType> {
@@ -57,6 +175,13 @@ export class ForecastServiceImpl implements ForecastService {
             windGust: result.current.wind_gust,
             rainVolume: result.current.rain?.['1h'],
             snowVolume: result.current.snow?.['1h'],
+            weather: result.current.weather.map((weatherResult) => {
+              return WeatherModel.create({
+                main: weatherResult.main,
+                description: weatherResult.description,
+                icon: this.getWeatherIcon(weatherResult.id),
+              });
+            }),
           }),
         }),
         minutely: result.minutely.map((minutelyResult) => {
@@ -84,6 +209,13 @@ export class ForecastServiceImpl implements ForecastService {
               windGust: hourlyResult.wind_gust,
               rainVolume: hourlyResult.rain?.['1h'],
               snowVolume: hourlyResult.snow?.['1h'],
+              weather: hourlyResult.weather.map((weatherResult) => {
+                return WeatherModel.create({
+                  main: weatherResult.main,
+                  description: weatherResult.description,
+                  icon: this.getWeatherIcon(weatherResult.id),
+                });
+              }),
             }),
           });
         }),
@@ -126,18 +258,27 @@ export class ForecastServiceImpl implements ForecastService {
               windGust: dailyResult.wind_gust,
               rainVolume: dailyResult.rain,
               snowVolume: dailyResult.snow,
+              weather: dailyResult.weather.map((weatherResult) => {
+                return WeatherModel.create({
+                  main: weatherResult.main,
+                  description: weatherResult.description,
+                  icon: this.getWeatherIcon(weatherResult.id),
+                });
+              }),
             }),
           });
         }),
-        alerts: result.alerts.map((alertResult) => {
-          return AlertModel.create({
-            sender: alertResult.sender_name,
-            event: alertResult.event,
-            description: alertResult.description,
-            start: unixTimestampToDate(alertResult.start, timeZoneOffset),
-            end: unixTimestampToDate(alertResult.end, timeZoneOffset),
-          });
-        }),
+        alerts: result.alerts
+          ? result.alerts.map((alertResult) => {
+              return AlertModel.create({
+                sender: alertResult.sender_name,
+                event: alertResult.event,
+                description: alertResult.description,
+                start: unixTimestampToDate(alertResult.start, timeZoneOffset),
+                end: unixTimestampToDate(alertResult.end, timeZoneOffset),
+              });
+            })
+          : [],
       });
     });
   }

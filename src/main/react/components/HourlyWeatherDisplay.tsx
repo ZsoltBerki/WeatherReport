@@ -8,6 +8,8 @@ import {
   renderPressure,
   renderTime,
 } from './utils';
+import WeatherIconDisplay from './WeatherIconDisplay';
+import { WeatherIcon } from '../models/weather/Weather';
 
 interface Props {
   hourlyWeather: HourlyWeatherType;
@@ -73,10 +75,16 @@ const HourlyWeatherDisplay: React.FunctionComponent<Props> = ({
 }) => {
   const temperature = hourlyWeather.temperature;
   const weather = hourlyWeather.weatherInfo;
+  const weatherIcon =
+    weather.weather && weather.weather.length > 0 && weather.weather[0].icon;
   const precipitationPercentage = hourlyWeather.precipitationProbability * 100;
   return (
     <Wrapper onMouseDown={onMouseDown}>
       <div className={'time separator'}>{renderTime(hourlyWeather.date)}</div>
+      <WeatherIconDisplay
+        weatherIcon={weatherIcon || WeatherIcon.Unknown}
+        isDay={true}
+      />
       <div className={'temperature'}>{renderCelsius(temperature.actual)}</div>
       <div className={'temperature feels-like'}>
         ({renderCelsius(temperature.feelsLike)})

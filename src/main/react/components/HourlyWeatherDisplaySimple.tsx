@@ -10,6 +10,8 @@ import {
   renderTime,
 } from './utils';
 import { CurrentWeatherType } from '../models/weather/CurrentWeather';
+import WeatherIconDisplay from './WeatherIconDisplay';
+import { WeatherIcon } from '../models/weather/Weather';
 
 interface Props {
   hourlyWeather: HourlyWeatherType;
@@ -78,8 +80,14 @@ const HourlyWeatherDisplaySimple: React.FunctionComponent<Props> = ({
   const weather = hourlyWeather.weatherInfo;
   const referenceWeather = hourlyWeatherReference.weatherInfo;
   const precipitationPercentage = hourlyWeather.precipitationProbability * 100;
+  const weatherIcon =
+    weather.weather && weather.weather.length > 0 && weather.weather[0].icon;
   return (
     <Wrapper>
+      <WeatherIconDisplay
+        weatherIcon={weatherIcon || WeatherIcon.Unknown}
+        isDay={true}
+      />
       <div className={'temperature'}>
         {renderDifferences(temperature.actual, referenceTemperature.actual)}
       </div>

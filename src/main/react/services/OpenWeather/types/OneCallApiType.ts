@@ -7,7 +7,7 @@ export interface OneCallType {
   minutely: Array<Minutely>;
   hourly: Array<Hourly>;
   daily: Array<Daily>;
-  alerts: Array<Alert>;
+  alerts?: Array<Alert>;
 }
 export function verifyOneCallType(object: any) {
   verifyField(object, 'lat', 'number');
@@ -28,8 +28,9 @@ export function verifyOneCallType(object: any) {
   verifyField(object, 'daily', 'array');
   (object['daily'] as Array<any>).forEach((element) => verifyDaily(element));
 
-  verifyField(object, 'alerts', 'array');
-  (object['alerts'] as Array<any>).forEach((element) => verifyAlert(element));
+  verifyField(object, 'alerts', 'array', true);
+  object['alerts'] &&
+    (object['alerts'] as Array<any>).forEach((element) => verifyAlert(element));
 }
 
 interface Current {
