@@ -13,7 +13,7 @@ export const renderTwoDigits: (number: number) => string = (number: number) => {
 export const renderPercentage: (number: number) => string = (
   number: number
 ) => {
-  return `${number}%`;
+  return number ? `${number}%` : '-';
 };
 
 export const renderCelsius: (number: number) => string = (number: number) => {
