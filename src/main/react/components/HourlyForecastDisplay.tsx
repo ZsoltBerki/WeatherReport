@@ -2,7 +2,7 @@ import { Units } from '../models/ApplicationSettings';
 import { HourlyWeatherType } from '../models/weather/HourlyWeather';
 import styled from 'styled-components';
 import React from 'react';
-import HourlyWeatherDisplay from './HourlyWeatherDisplay';
+import HourlyWeatherDisplay from './HourlyDisplay/HourlyWeatherDisplay';
 import ThermometerSVG from '../../svg/wi-thermometer.svg';
 import PressureSVG from '../../svg/wi-barometer.svg';
 import HumiditySVG from '../../svg/wi-humidity.svg';

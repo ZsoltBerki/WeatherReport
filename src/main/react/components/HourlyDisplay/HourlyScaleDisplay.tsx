@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { HourlyWeatherType } from '../models/weather/HourlyWeather';
+import { HourlyWeatherType } from '../../models/weather/HourlyWeather';
 import HourlyWeatherDisplaySimple from './HourlyWeatherDisplaySimple';
-import { Units } from '../models/ApplicationSettings';
+import { Units } from '../../models/ApplicationSettings';
 import HourlyWeatherDisplay from './HourlyWeatherDisplay';
-import { CurrentWeatherType } from '../models/weather/CurrentWeather';
+import { CurrentWeatherType } from '../../models/weather/CurrentWeather';
 import HourlyWeatherDisplayCurrent from './HourlyWeatherDisplayCurrent';
 
 interface Props {

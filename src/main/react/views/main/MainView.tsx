@@ -9,8 +9,8 @@ import CurrentWeatherDisplay from '../../components/CurrentWeatherDisplay';
 import HourlyForecastDisplay from '../../components/HourlyForecastDisplay';
 import AlertsDisplay from '../../components/AlertsDisplay';
 import Dragable from '../../components/Dragable';
-import HourlyScaleDisplay from '../../components/HourlyScaleDisplay';
-import HourlyWeatherDisplayCurrent from '../../components/HourlyWeatherDisplayCurrent';
+import HourlyScaleDisplay from '../../components/HourlyDisplay/HourlyScaleDisplay';
+import HourlyWeatherDisplayCurrent from '../../components/HourlyDisplay/HourlyWeatherDisplayCurrent';
 
 interface MainViewProps {
   store?: StoreType;
