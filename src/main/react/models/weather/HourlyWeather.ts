@@ -7,6 +7,7 @@ export const HourlyWeatherModel = types.model('Hourly Weather', {
   temperature: TemperatureModel,
   weatherInfo: WeatherInfoModel,
   precipitationProbability: types.number,
+  isDayTime: types.boolean,
 });
 
 export type HourlyWeatherType = Instance<typeof HourlyWeatherModel>;

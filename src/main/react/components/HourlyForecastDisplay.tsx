@@ -88,6 +88,7 @@ const HourlyForecastDisplay: React.FunctionComponent<Props> = ({
             key={index}
             hourlyWeather={hourlyWeather}
             units={units}
+            isDaytime={true}
           />
         ))}
       </ValuesWrapper>

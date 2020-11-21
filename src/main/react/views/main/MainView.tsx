@@ -42,6 +42,7 @@ const MainView: React.FunctionComponent<MainViewProps> = ({
                   stopDragging={store.hourlyScale.stopDragging}
                   drag={store.hourlyScale.drag}
                   units={store.applicationSettings.units}
+                  onDaytime={store.forecastForLocation.forecast.onDaytime}
                   hourlyForecast={store.forecastForLocation.forecast.hourly.slice(
                     1,
                     store.hourlyScale.totalItems + 1

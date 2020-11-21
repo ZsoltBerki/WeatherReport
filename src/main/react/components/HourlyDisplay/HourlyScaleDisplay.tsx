@@ -14,6 +14,7 @@ interface Props {
   drag: (newPosition: number) => void;
   hourlyForecast: Array<HourlyWeatherType>;
   currentWeather: CurrentWeatherType;
+  onDaytime: (time: Date) => boolean;
   units: Units;
 }
 
@@ -72,6 +73,7 @@ class HourlyScaleDisplay extends React.Component<Props> {
       displayedItemIndex,
       currentWeather,
       units,
+      onDaytime,
     } = this.props;
     const preDisplayList = hourlyForecast.slice(0, displayedItemIndex);
     const displayItem = hourlyForecast[displayedItemIndex];
@@ -81,6 +83,7 @@ class HourlyScaleDisplay extends React.Component<Props> {
         <HourlyWeatherDisplayCurrent
           currentWeather={currentWeather}
           units={units}
+          isDaytime={onDaytime(currentWeather.date)}
         />
         {preDisplayList.map((hourlyWeatherItem, index) => (
           <HourlyWeatherDisplaySimple
@@ -88,12 +91,14 @@ class HourlyScaleDisplay extends React.Component<Props> {
             hourlyWeather={hourlyWeatherItem}
             units={units}
             hourlyWeatherReference={currentWeather}
+            onDaytime={onDaytime}
           />
         ))}
         <HourlyWeatherDisplay
           onMouseDown={this.getMouseDown()}
           hourlyWeather={displayItem}
           units={this.props.units}
+          isDaytime={onDaytime(displayItem.date)}
         />
         {postDisplayList.map((hourlyWeatherItem, index) => (
           <HourlyWeatherDisplaySimple
@@ -101,6 +106,7 @@ class HourlyScaleDisplay extends React.Component<Props> {
             hourlyWeather={hourlyWeatherItem}
             units={units}
             hourlyWeatherReference={currentWeather}
+            onDaytime={onDaytime}
           />
         ))}
       </Wrapper>

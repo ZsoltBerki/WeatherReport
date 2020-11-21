@@ -27,6 +27,7 @@ import {
 interface Props {
   hourlyWeather: HourlyWeatherType;
   hourlyWeatherReference: CurrentWeatherType;
+  onDaytime: (time: Date) => boolean;
   units: Units;
 }
 
@@ -88,7 +89,10 @@ const HourlyWeatherDisplaySimple: React.FunctionComponent<Props> = ({
   hourlyWeather,
   hourlyWeatherReference,
   units,
+  onDaytime,
 }) => {
+  const isDaytime = onDaytime(hourlyWeather.date);
+  console.log('is day time', isDaytime);
   const temperature = hourlyWeather.temperature;
   const referenceTemperature = hourlyWeatherReference.temperature;
   const weather = hourlyWeather.weatherInfo;
@@ -103,7 +107,7 @@ const HourlyWeatherDisplaySimple: React.FunctionComponent<Props> = ({
         <div className={'weather-icon'}>
           <WeatherIconDisplay
             weatherIcon={weatherIcon || WeatherIcon.Unknown}
-            isDay={true}
+            isDay={isDaytime}
           />
         </div>
       </WeatherIconSlot>

@@ -15,10 +15,9 @@ interface ApplicationProps {
 const Screen = styled.div`
   min-width: 800px;
   max-width: 800px;
-  min-height: 480px;
-  max-height: 480px;
+  min-height: 440px;
+  max-height: 440px;
   border: 1px solid black;
-  padding: 20px;
   font-family: Arial;
 }
 `;

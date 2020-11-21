@@ -26,6 +26,7 @@ interface Props {
   hourlyWeather: HourlyWeatherType;
   units: Units;
   onMouseDown?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  isDaytime: boolean;
 }
 
 const Wrapper = styled.div`
@@ -93,6 +94,7 @@ const HourlyWeatherDisplay: React.FunctionComponent<Props> = ({
   hourlyWeather,
   units,
   onMouseDown,
+  isDaytime,
 }) => {
   const temperature = hourlyWeather.temperature;
   const weather = hourlyWeather.weatherInfo;
@@ -107,7 +109,7 @@ const HourlyWeatherDisplay: React.FunctionComponent<Props> = ({
       <WeatherIconSlot>
         <WeatherIconDisplay
           weatherIcon={weatherIcon || WeatherIcon.Unknown}
-          isDay={true}
+          isDay={isDaytime}
         />
       </WeatherIconSlot>
       <TemperatureSlot>

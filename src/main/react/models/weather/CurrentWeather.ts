@@ -8,6 +8,7 @@ export const CurrentWeatherModel = types.model('Current Weather', {
   dayInfo: DayInfoModel,
   temperature: TemperatureModel,
   weatherInfo: WeatherInfoModel,
+  isDayTime: types.boolean,
 });
 
 export type CurrentWeatherType = Instance<typeof CurrentWeatherModel>;
